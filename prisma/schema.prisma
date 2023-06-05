@@ -6,6 +6,49 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+
+model Menu {
+  id Int @id @default(autoincrement())
+  semana Int
+  platos Plato[]
+}
+
+
+model Ingrediente {
+  id Int @id @default(autoincrement())
+  nombre String @unique 
+  fechaCaducidad DateTime
+  cantidadEnNevera Int @default(0)
+  platos IngredientePlato[]
+  neveraId Int
+  nevera Nevera @relation(fields: [neveraId], references: [id])
+  
+}
+
+model IngredientePlato{
+  platoId Int
+  ingredienteId Int
+  plato Plato @relation(fields: [platoId], references: [id])
+  ingrediente Ingrediente @relation(fields: [ingredienteId], references: [id])
+
+  @@id([platoId, ingredienteId])
+}
+
+
+model Plato {
+  id Int @id @default(autoincrement())
+  nombre String @unique 
+  fecha DateTime
+  menuId Int
+  menu Menu @relation(fields: [menuId], references: [id])
+  ingredientes IngredientePlato[] 
+}
+
+model Nevera {
+  id Int @id @default(autoincrement())
+  ingredientes Ingrediente[]
 }

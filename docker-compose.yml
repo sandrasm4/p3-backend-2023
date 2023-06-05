@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  forumdb:
+    image: postgres
+    container_name: menudb
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=sandrasm4
+      - POSTGRES_DB=menudb
+    ports:
+      - 5432:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+volumes:
+  dbdata:

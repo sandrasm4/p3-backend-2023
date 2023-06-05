@@ -26,7 +26,6 @@ model Ingrediente {
   platos IngredientePlato[]
   neveraId Int
   nevera Nevera @relation(fields: [neveraId], references: [id])
-  
 }
 
 model IngredientePlato{

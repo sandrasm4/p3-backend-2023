@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import dotenv from "dotenv"
+import prisma from "./prisma-client.js";
 
 dotenv.config();
 
@@ -16,4 +17,16 @@ app.get("/", async (req, res) => {
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`MenuPlannerAPI server listening on : ${process.env.SERVER_PORT}`);
+});
+
+app.get("/menus", async (req, res) => {
+  try {
+    const result = await prisma.menu.findMany({});
+    res.status(200).json({ menus: result, ok: true });
+  } catch (e) {
+    res.status(500).json({
+      type: e.constructor.name,
+      message: e.toString(),
+    });
+  }
 });

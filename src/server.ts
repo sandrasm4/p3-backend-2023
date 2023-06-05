@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/menus", menusRouter);
+app.use("/menu", menusRouter);
 
 app.get("/", async (req, res) => {
   res.send("Welcome to the Menu planner API!");
